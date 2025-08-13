@@ -8,15 +8,7 @@ resource "azurerm_resource_group" "automation" {
   tags = var.tags
 }
 
-data "azurerm_resource_group" "automation" {
-  count = var.create_resource_group ? 0 : 1
-  name  = var.resource_group_name
-}
 
-locals {
-  resource_group_name = var.create_resource_group ? azurerm_resource_group.automation[0].name : data.azurerm_resource_group.automation[0].name
-  user_assigned_identity_ids = var.create_user_assigned_identity ? [azurerm_user_assigned_identity.main[0].id] : var.user_assigned_identity_ids
-}
 
 resource "azurerm_log_analytics_workspace" "main" {
   count               = var.enable_logging ? 1 : 0
